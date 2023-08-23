@@ -1,11 +1,13 @@
 use std::fs::File;
-use std::io::{self, BufRead};
-use std::io::prelude::*;
+use std::io::Write;
 use std::path::Path;
 use html2md::parse_html;
 
+mod read_lines;
+mod format_date;
+
 fn main() {
-    if let Ok(lines) = read_lines("./source.xml") {
+    if let Ok(lines) = read_lines::read_lines("./source.xml") {
         for line in lines {
             if let Ok(ip) = line {
                 if ip.contains("<title>") {
@@ -26,11 +28,62 @@ fn main() {
 
                     let markdown_heading = "# ".to_owned() + &title + "\n";
 
+                    // get the date from the pubDate tag
+                    let mut date = String::new();
+                    let mut date_flag = false;
+                    if let Ok(lines) = read_lines::read_lines("./source.xml") {
+                        for line in lines {
+                            if let Ok(ip) = line {
+                                if ip.contains(&title) {
+                                    continue;
+                                }
+                                if ip.contains("<pubDate>") {
+                                    date_flag = true;
+                                }
+                                if date_flag {
+                                    date = date + &ip;
+                                }
+                                if ip.contains("</pubDate>") {
+                                    date_flag = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    date = date.replace("<pubDate>", "");
+                    date = date.replace("</pubDate>", "");
+                    date = date.trim().to_string();
+
+                    let formatted_date = format_date::format_date(&date).unwrap();
+
+                    // get the tags from <category domain="post_tag">
+                    let mut tags = String::new();
+                    let mut tags_flag = false;
+                    if let Ok(lines) = read_lines::read_lines("./source.xml") {
+                        for line in lines {
+                            if let Ok(ip) = line {
+                                if ip.contains(&title) {
+                                    continue;
+                                }
+                                if ip.contains("<category domain=\"post_tag\"") {
+                                    tags_flag = true;
+                                }
+                                if tags_flag {
+                                    tags = tags + &ip;
+                                }
+                                if ip.contains("</category>") {
+                                    tags_flag = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     // get the content from the next <content:encoded> tag
                     let mut content = String::new();
                     let mut content_flag = false;
                     let mut is_under_title = false;
-                    if let Ok(lines) = read_lines("./source.xml") {
+                    if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
                                 if ip.contains(&title) {
@@ -46,6 +99,7 @@ fn main() {
                                     }
                                     if ip.contains("</content:encoded>") {
                                         content_flag = false;
+                                        break;
                                     }
                                 }
                             }
@@ -67,8 +121,8 @@ fn main() {
                     content = parse_html(&content);
                     content = content.replace("]]\\>", "");
 
-                    // combine markdown heading, newline, and content
-                    let markdown_content = markdown_heading + "\n\n" + &content;
+                    // combine created date, tags, heading, and content
+                    let markdown_content = "created: ".to_owned() + &date + "\ntags: [" + &tags + "]\n\n" + &markdown_heading + "\n\n" + &content;
 
                     match file.write_all(markdown_content.as_bytes()) {
                         Err(why) => panic!("couldn't write to {}: {}", display, why),
@@ -79,11 +133,5 @@ fn main() {
             }
         }
     }
-}
-
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
 }
 

@@ -1,3 +1,0 @@
-# Tyler Trouts Blog
-
-
