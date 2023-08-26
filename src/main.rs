@@ -11,7 +11,8 @@ fn main() {
         for line in lines {
             if let Ok(ip) = line {
                 if ip.contains("<title>") {
-                    let mut title = ip.replace("<title>", "");
+                    let originalTitle = ip.clone();
+                    let mut title = originalTitle.replace("<title>", "");
                     title = title.replace("</title>", "");
                     title.retain(|c| c.is_alphabetic() || c == ' ');
 
@@ -31,49 +32,64 @@ fn main() {
                     // get the date from the pubDate tag
                     let mut date = String::new();
                     let mut date_flag = false;
+                    let mut date_is_under_title = false;
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&title) {
+                                if ip.contains(&originalTitle) {
+                                    date_is_under_title = true;
                                     continue;
                                 }
-                                if ip.contains("<pubDate>") {
-                                    date_flag = true;
-                                }
-                                if date_flag {
-                                    date = date + &ip;
-                                }
-                                if ip.contains("</pubDate>") {
-                                    date_flag = false;
-                                    break;
+                                if date_is_under_title {
+                                    if ip.contains("<pubDate>") {
+                                        date_flag = true;
+                                    }
+                                    if date_flag {
+                                        date = date + &ip;
+                                    }
+                                    if ip.contains("</pubDate>") {
+                                        date_flag = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                    date = date.replace("<pubDate>", "");
-                    date = date.replace("</pubDate>", "");
-                    date = date.trim().to_string();
+                    if date != "" {
+                        date = date.replace("<pubDate>", "");
+                        date = date.replace("</pubDate>", "");
+                        date = date.trim().to_string();
 
-                    let formatted_date = format_date::format_date(&date).unwrap();
+                        let formatted_date = format_date::format_date(&date).unwrap();
+                        date = formatted_date;
+                    } else {
+                        date = "2020-01-01 00:00:00 UTC".to_string();
+                    }
 
                     // get the tags from <category domain="post_tag">
                     let mut tags = String::new();
                     let mut tags_flag = false;
+                    let mut tags_is_under_title = false;
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&title) {
+                                if ip.contains(&originalTitle) {
+                                    tags_is_under_title = true;
                                     continue;
                                 }
-                                if ip.contains("<category domain=\"post_tag\"") {
-                                    tags_flag = true;
-                                }
-                                if tags_flag {
-                                    tags = tags + &ip;
-                                }
-                                if ip.contains("</category>") {
-                                    tags_flag = false;
-                                    break;
+                                if tags_is_under_title {
+                                    if ip.contains("<category domain=\"post_tag\"") {
+                                        tags_flag = true;
+                                    }
+                                    if tags_flag {
+                                        // get the nicename attribute
+                                        let tag = ip.split("nicename=\"").collect::<Vec<&str>>()[1].split("\"").collect::<Vec<&str>>()[0].to_string();
+                                        tags = tags + &tag;
+                                    }
+                                    if ip.contains("</category>") {
+                                        tags_flag = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -82,15 +98,15 @@ fn main() {
                     // get the content from the next <content:encoded> tag
                     let mut content = String::new();
                     let mut content_flag = false;
-                    let mut is_under_title = false;
+                    let mut content_is_under_title = false;
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&title) {
-                                    is_under_title = true;
+                                if ip.contains(&originalTitle) {
+                                    content_is_under_title = true;
                                     continue;
                                 }
-                                if is_under_title {
+                                if content_is_under_title {
                                     if ip.contains("<content:encoded>") {
                                         content_flag = true;
                                     }

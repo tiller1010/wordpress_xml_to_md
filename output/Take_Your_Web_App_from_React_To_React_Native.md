@@ -1,5 +1,5 @@
-created: Mon, 14 Aug 2023 00:38:49 +0000
-tags: []
+created: 2021-01-26 02:33:05 +00:00
+tags: [expo]
 
 # Take Your Web App from React To React Native
 
