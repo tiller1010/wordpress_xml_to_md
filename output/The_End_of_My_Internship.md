@@ -1,4 +1,4 @@
-created: 2019-08-06 17:04:17 +00:00
+created: 2019-08-06T17:04:17+00:00
 tags: [clients]
 
 # The End of My Internship

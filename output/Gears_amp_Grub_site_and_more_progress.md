@@ -1,4 +1,4 @@
-created: 2019-07-15 17:14:42 +00:00
+created: 2019-07-15T17:14:42+00:00
 tags: [clients]
 
 # Gears amp Grub site and more progress

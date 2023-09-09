@@ -1,4 +1,4 @@
-created: 2020-09-15 00:41:41 +00:00
+created: 2020-09-15T00:41:41+00:00
 tags: [business]
 
 # Stop Making Site Updates Harder For Yourself amp Customers

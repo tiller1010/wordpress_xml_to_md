@@ -1,4 +1,4 @@
-created: 2019-09-14 13:22:52 +00:00
+created: 2019-09-14T13:22:52+00:00
 tags: [git]
 
 # Becoming part of a team

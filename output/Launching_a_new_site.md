@@ -1,4 +1,4 @@
-created: 2019-11-12 02:42:42 +00:00
+created: 2019-11-12T02:42:42+00:00
 tags: [business]
 
 # Launching a new site

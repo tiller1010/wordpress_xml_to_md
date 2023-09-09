@@ -1,4 +1,4 @@
-created: 2019-05-24 23:14:43 +00:00
+created: 2019-05-24T23:14:43+00:00
 tags: [learning]
 
 # Seeing results

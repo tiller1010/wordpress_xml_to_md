@@ -1,4 +1,4 @@
-created: 2019-04-11 20:41:38 +00:00
+created: 2019-04-11T20:41:38+00:00
 tags: []
 
 # Linux to a lifetime Windows User
