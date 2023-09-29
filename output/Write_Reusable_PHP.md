@@ -20,7 +20,8 @@ $facebook = new \Vendor\SocialMedia\SocialMediaLink();
 Or you could include the class with the "use" statement:
 
 ```
-use Vendor\SocialMedia\SocialMediaLink; $facebook = new SocialMediaLink();
+use Vendor\SocialMedia\SocialMediaLink;
+$facebook = new SocialMediaLink();
 ```
 
 Namespacing your modules ensures that the class names never conflict with those that are defined globally.
@@ -42,7 +43,16 @@ If you are familiar with Object-Oriented Programming (OOP), you know that you ca
 A website will commonly have different types of pages. Some functionality should be shared between all pages, but some pages will have different concerns. For example, a blog page might be responsible for storing and fetching written articles. A home page will usually feature a large banner image, video, or slideshow. If we want our "Page" class to be extendable, it should only be concerned with the functionality that should be shared across every page type. We could then extend the Page class for each page type and add the appropriate functionality:
 
 ```
-class Page{ // Define the functionality that should exist on all pages ...}class HomePage extends Page{  // This inherits from "Page", so just define everything unique to a Home Page ...}
+class Page
+{
+ // Define the functionality that should exist on all pages
+ ...
+}
+class HomePage extends Page
+{
+ // This inherits from "Page", so just define everything unique to a Home Page
+ ...
+}
 ```
 
 Conclusion

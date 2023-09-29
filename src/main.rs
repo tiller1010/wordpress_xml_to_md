@@ -8,9 +8,12 @@ mod format_date;
 
 fn main() {
     if let Ok(lines) = read_lines::read_lines("./source.xml") {
+        let mut is_under_post = false;
         for line in lines {
             if let Ok(ip) = line {
-                if ip.contains("<title>") {
+                if ip.contains("<item>") && !is_under_post {
+                    is_under_post = true;
+                } else if ip.contains("<title>") && is_under_post {
                     let originalTitle = ip.clone();
                     let mut title = originalTitle.replace("<title>", "");
                     title = title.replace("</title>", "");
@@ -111,7 +114,7 @@ fn main() {
                                         content_flag = true;
                                     }
                                     if content_flag {
-                                        content = content + &ip;
+                                        content = content + "\n" + &ip;
                                     }
                                     if ip.contains("</content:encoded>") {
                                         content_flag = false;
