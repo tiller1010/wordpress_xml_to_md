@@ -1,7 +1,7 @@
 created: 2020-09-15T00:41:41+00:00
 tags: [business]
 
-# Stop Making Site Updates Harder For Yourself amp Customers
+# Stop Making Site Updates Harder For Yourself & Customers
 
 
 Imagine if every time you needed to start your car, you first had to install the engine. No one would ask to borrow your car, but you would be reluctant to use it yourself. No one wants a mundane task to take anymore time and effort than is required. Simple problems should have simple solutions, and updates to our websites should be painless. A site that works on one machine, should work on any machine. A site that needs a single change in punctuation on a single page, should not require a developer.

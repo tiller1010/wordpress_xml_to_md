@@ -17,7 +17,8 @@ fn main() {
                     let originalTitle = ip.clone();
                     let mut title = originalTitle.replace("<title>", "");
                     title = title.replace("</title>", "");
-                    title.retain(|c| c.is_alphabetic() || c == ' ');
+                    title = title.replace("&amp;", "&");
+                    title.retain(|c| c.is_alphabetic() || c == ' ' || c == '&');
 
                     let file_title = title.replace(" ", "_");
 

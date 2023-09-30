@@ -1,7 +1,7 @@
 created: 2019-07-15T17:14:42+00:00
 tags: [clients]
 
-# Gears amp Grub site and more progress
+# Gears & Grub site and more progress
 
 
 At the time of this writing, one of my first client websites, [Gears & Grub](http://gearsandgruberie.com), is near completion. Gears & Grub is a gathering of food trucks, vendors, and motorcycles. The event has good food and music, and it is in downtown Erie this year. The event is quickly approaching, so getting the site ready has been a major priority of mine. Working on the site made me realize how small of a world we live in. I have spotted many of the trucks, vendors, and participants listed on the site, and some of which I even know or have spoken with.
