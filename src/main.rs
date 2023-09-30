@@ -14,8 +14,8 @@ fn main() {
                 if ip.contains("<item>") && !is_under_post {
                     is_under_post = true;
                 } else if ip.contains("<title>") && is_under_post {
-                    let originalTitle = ip.clone();
-                    let mut title = originalTitle.replace("<title>", "");
+                    let original_title = ip.clone();
+                    let mut title = original_title.replace("<title>", "");
                     title = title.replace("</title>", "");
                     title = title.replace("&amp;", "&");
                     title.retain(|c| c.is_alphabetic() || c == ' ' || c == '&');
@@ -40,7 +40,7 @@ fn main() {
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&originalTitle) {
+                                if ip.contains(&original_title) {
                                     date_is_under_title = true;
                                     continue;
                                 }
@@ -77,7 +77,7 @@ fn main() {
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&originalTitle) {
+                                if ip.contains(&original_title) {
                                     tags_is_under_title = true;
                                     continue;
                                 }
@@ -106,7 +106,7 @@ fn main() {
                     if let Ok(lines) = read_lines::read_lines("./source.xml") {
                         for line in lines {
                             if let Ok(ip) = line {
-                                if ip.contains(&originalTitle) {
+                                if ip.contains(&original_title) {
                                     content_is_under_title = true;
                                     continue;
                                 }
